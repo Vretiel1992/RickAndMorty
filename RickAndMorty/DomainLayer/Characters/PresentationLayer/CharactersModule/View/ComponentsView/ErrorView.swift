@@ -42,7 +42,7 @@ final class ErrorView: UIView {
         var config = UIButton.Configuration.filled()
         let title = Constants.updateViewButtonText
         config.baseBackgroundColor = AppConstants.Colors.tertiaryBackgroundColor
-        config.baseForegroundColor = .white
+        config.baseForegroundColor = AppConstants.Colors.primaryTextColor
         config.cornerStyle = .medium
         let attributeContainer = AttributeContainer([
             NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium)
@@ -58,7 +58,7 @@ final class ErrorView: UIView {
     private let errorTextLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.textColor = .white
+        label.textColor = AppConstants.Colors.primaryTextColor
         label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
         label.numberOfLines = 0
         return label

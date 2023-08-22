@@ -18,20 +18,24 @@ final class DetailCharacterPresenter: DetailCharacterPresenterProtocol {
 
     private weak var view: DetailCharacterViewProtocol?
     private let characterAPIManager: CharactersAPIManagerProtocol
+    private var character: CharacterModel
+    private let detailCharacterHeaderViewMapper = DetailCharacterHeaderViewMapper()
 
     // MARK: - Initializers
 
     init(
         view: DetailCharacterViewProtocol,
-        characterAPIManager: CharactersAPIManagerProtocol
+        characterAPIManager: CharactersAPIManagerProtocol,
+        character: CharacterModel
     ) {
         self.view = view
         self.characterAPIManager = characterAPIManager
+        self.character = character
     }
 
     // MARK: - Protocol Methods
 
     func viewDidLoad() {
-
+        view?.update(aboutCharacter: detailCharacterHeaderViewMapper.map(character))
     }
 }

@@ -43,7 +43,7 @@ final class LoadingView: UIView {
         let label = UILabel()
         label.textAlignment = .center
         label.text = Constants.infoLabelText
-        label.textColor = .white
+        label.textColor = AppConstants.Colors.primaryTextColor
         label.font = UIFont.systemFont(ofSize: 16)
         label.numberOfLines = 1
         return label

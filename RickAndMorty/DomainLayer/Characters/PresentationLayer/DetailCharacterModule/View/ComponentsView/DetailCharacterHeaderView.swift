@@ -1,5 +1,5 @@
 //
-//  CharacterCollectionViewCell.swift
+//  DetailCharacterHeaderView.swift
 //  RickAndMorty
 //
 //  Created by Антон Денисюк on 21.08.2023.
@@ -7,23 +7,13 @@
 
 import UIKit
 
-final class CharacterCollectionViewCell: UICollectionViewCell {
-
-    // MARK: - Types
-
-    private enum Constants {
-
-        // Numerical
-
-        static let defaultConstraintConstant: CGFloat = 8
-    }
+final class DetailCharacterHeaderView: UITableViewHeaderFooterView {
 
     // MARK: - Private Properties
 
-    private let vStackView: UIStackView = {
+    private lazy var vStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = 16
         stackView.alignment = .center
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
@@ -32,7 +22,7 @@ final class CharacterCollectionViewCell: UICollectionViewCell {
     private let characterImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.layer.cornerRadius = 10
+        imageView.layer.cornerRadius = 16
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -41,17 +31,26 @@ final class CharacterCollectionViewCell: UICollectionViewCell {
     private let characterNameLabel: UILabel = {
         let label = UILabel()
         label.textColor = AppConstants.Colors.primaryTextColor
-        label.font = UIFont.setGilroyFont(weight: .semibold, ofSize: 17)
+        label.font = UIFont.setGilroyFont(weight: .bold, ofSize: 22)
         label.lineBreakMode = .byTruncatingTail
         label.adjustsFontSizeToFitWidth = true
         label.numberOfLines = 1
         return label
     }()
 
+    private let characterStatusLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = AppConstants.Colors.tertiaryTextColor
+        label.font = UIFont.setGilroyFont(weight: .medium, ofSize: 16)
+        label.lineBreakMode = .byTruncatingTail
+        label.numberOfLines = 1
+        return label
+    }()
+
     // MARK: - Initializers
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
         setupViews()
         setupConstraints()
     }
@@ -60,44 +59,37 @@ final class CharacterCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - Override Methods
-
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        characterImageView.image = nil
-        characterNameLabel.text = nil
-    }
-
     // MARK: - Private Methods
 
-    private func setupViews() {
-        contentView.backgroundColor = AppConstants.Colors.secondaryBackgroundColor
-        contentView.layer.cornerRadius = 16
-        contentView.clipsToBounds = true
-        contentView.addSubview(vStackView)
+    func setupViews() {
+        backgroundColor = .clear
+        addSubview(vStackView)
         vStackView.addArrangedSubview(characterImageView)
         vStackView.addArrangedSubview(characterNameLabel)
+        vStackView.addArrangedSubview(characterStatusLabel)
+        vStackView.setCustomSpacing(24, after: characterImageView)
+        vStackView.setCustomSpacing(8, after: characterNameLabel)
     }
 
-    private func setupConstraints() {
+    func setupConstraints() {
         NSLayoutConstraint.activate([
             vStackView.topAnchor.constraint(
-                equalTo: contentView.topAnchor,
-                constant: Constants.defaultConstraintConstant
+                equalTo: self.topAnchor,
+                constant: 16
             ),
             vStackView.leadingAnchor.constraint(
-                equalTo: contentView.leadingAnchor,
-                constant: Constants.defaultConstraintConstant
+                equalTo: self.leadingAnchor
             ),
             vStackView.trailingAnchor.constraint(
-                equalTo: contentView.trailingAnchor,
-                constant: -Constants.defaultConstraintConstant
+                equalTo: self.trailingAnchor
             ),
             vStackView.bottomAnchor.constraint(
-                equalTo: contentView.bottomAnchor,
-                constant: -Constants.defaultConstraintConstant * 2
+                equalTo: self.bottomAnchor
             ),
 
+            characterImageView.widthAnchor.constraint(
+                equalToConstant: 148
+            ),
             characterImageView.heightAnchor.constraint(
                 equalTo: characterImageView.widthAnchor,
                 multiplier: 1.0
@@ -108,23 +100,30 @@ final class CharacterCollectionViewCell: UICollectionViewCell {
 
 // MARK: - Configurable
 
-extension CharacterCollectionViewCell: Configurable {
+extension DetailCharacterHeaderView: Configurable {
 
     struct Model {
-        let id: Int
-        let characterName: String
+
         let characterImageURL: URL?
+        let characterName: String
+        let characterStatus: String
     }
 
     func configure(with model: Model) {
-        characterNameLabel.setTextAttributes(
-            text: model.characterName,
-            lineHeightMultiple: 1.08,
-            kern: -0.41
-        )
-
         if let url = model.characterImageURL {
             characterImageView.setImageURL(url)
         }
+
+        characterNameLabel.setTextAttributes(
+            text: model.characterName,
+            lineHeightMultiple: 0.94,
+            kern: 0.32
+        )
+
+        characterStatusLabel.setTextAttributes(
+            text: model.characterStatus,
+            lineHeightMultiple: 1.06,
+            kern: -0.32
+        )
     }
 }

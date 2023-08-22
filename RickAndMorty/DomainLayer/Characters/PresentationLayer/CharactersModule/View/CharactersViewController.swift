@@ -113,9 +113,9 @@ final class CharactersViewController: UIViewController {
         navBarAppearance.shadowColor = nil
         navBarAppearance.largeTitleTextAttributes = [
             .font: UIFont.setGilroyFont(weight: .bold, ofSize: 28),
-            .foregroundColor: UIColor.white
+            .foregroundColor: AppConstants.Colors.primaryTextColor
         ]
-        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.tintColor = AppConstants.Colors.primaryTextColor
         navigationController?.navigationBar.standardAppearance = navBarAppearance
         navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
     }

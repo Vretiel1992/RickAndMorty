@@ -47,7 +47,8 @@ final class Assembly: AssemblyProtocol {
         let view = DetailCharacterViewController()
         let presenter = DetailCharacterPresenter(
             view: view,
-            characterAPIManager: charactersAPIManager
+            characterAPIManager: charactersAPIManager,
+            character: character
         )
         view.presenter = presenter
         return view
